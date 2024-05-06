@@ -1,4 +1,3 @@
-// NewPost.js
 import classes from "./NewPost.module.css";
 import { useState } from "react";
 
@@ -9,25 +8,27 @@ function NewPost({ onCancel, onAddPost }) {
   function bodyChangeHandler(event) {
     setEnteredBody(event.target.value);
   }
+  
   function authorChangeHandler(event) {
     setEnteredAuthor(event.target.value);
   }
-  function submitHandler(event) {
-    event.preventDefault();
+  
+  function submitHandler() {
     const postData = {
       body: enteredBody,
       author: enteredAuthor,
     };
-    onAddPost(postData);
+    onAddPost(postData); // Pass postData to onAddPost
     onCancel();
   }
 
-  function stopPropagation(event) {
+  function stopPropagation(event){
     event.stopPropagation();
   }
+  
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
+    <div className={classes.form}>
       <p>
         <label htmlFor="body">Text</label>
         <textarea
@@ -35,6 +36,7 @@ function NewPost({ onCancel, onAddPost }) {
           required
           rows={3}
           onChange={bodyChangeHandler}
+          onClick={stopPropagation}
         />
       </p>
       <p>
@@ -44,15 +46,16 @@ function NewPost({ onCancel, onAddPost }) {
           id="name"
           required
           onChange={authorChangeHandler}
+          onClick={stopPropagation}
         />
       </p>
       <p className={classes.actions}>
         <button type="button" onClick={onCancel}>
           Cancel
         </button>
-        <button type="submit">Submit</button>
+        <button type="button" onClick={submitHandler}>Submit</button>
       </p>
-    </form>
+    </div>
   );
 }
 
